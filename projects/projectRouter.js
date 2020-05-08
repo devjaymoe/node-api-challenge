@@ -6,46 +6,115 @@ router.use(express.json());
 
 router.get('/', (req, res) => {
   Projects.get()
-    .then
-  res.status(200).json({ message: 'hello from project router' })
-})
+    .then( response => {
+      res.status(200).json({ message: 'success!', data: response})
+    })
+    .catch( err => {
+      console.log(err)
+      res.status(500).json({
+          message: 'The project data could not be retrieved.'
+      });
+    });
+});
 
-router.get('/:id', (req, res) => {
-  res.status(200).json({ message: 'project by id' })
-})
+router.get('/:id', validateProjectId, (req, res) => {
+  const id = req.params.id
+  Projects.get(id)
+    .then( response => {
+      res.status(200).json({ message: 'success!', data: response})
+    })
+    .catch( err => {
+      console.log(err)
+      res.status(500).json({
+          message: 'The project data could not be retrieved.'
+      });
+    });
+});
 
-router.post('/', (req, res) => {
-  res.status(200).json({ message: 'added project to db '})
-})
+router.post('/', validateProject, (req, res) => {
+  const project = req.body;
+  Projects.insert(project)
+    .then(addedProject => {
+      res.status(201).json(addedProject)
+    })
+    .catch( error => {
+      console.log(error)
+      res.status(500).json({
+          message: 'There was an error while adding the project to the database',
+          error: error
+      });
+    });
+});
 
-router.delete('/:id', (req, res) => {
-  res.status(200).json({ message: 'project deleted' })
-})
+router.delete('/:id', validateProjectId, (req, res) => {
+  const id = req.params.id;
+  Projects.remove(id)
+    .then( success => {
+      res.status(200).json({ 
+        message: 'project deleted', 
+        success: success
+      })
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({
+          message: 'There was an error removing the  project'
+      });
+    });
+});
 
-router.put('/:id', (req, res) => {
-  res.status(200).json({ message: 'project edited with that id' })
-})
+router.put('/:id', validateProjectId, validateProject, (req, res) => {
+  const id = req.params.id;
+  const changes = req.body;
+  Projects.update(id, changes)
+    .then( update => {
+      res.status(200).json({ message: 'update success!', project: update })
+    })
+    .catch( err => {
+      res.status(500).json({ 
+        message: 'there was an error updating the information in the database.', 
+        error: err
+      });
+    });
+});
 
 function validateProjectId(req, res, next) {
   const id = Number(req.params.id)
   if(id && typeof id === 'number'){
-    req.user = id
-    Users.getById(req.user)
-    .then(user => {
-      if (user){
+    Projects.get(id)
+    .then(project => {
+      if (project){
           next();
       } else {
-          res.status(400).json({ message: 'invalid user id'})
+          res.status(400).json({ message: 'invalid project id'})
       }
     })
     .catch(err => {
       console.log(err)
       res.status(500).json({
-          message: 'The users information could not be retrieved.'
+          message: 'The project information could not be retrieved.'
       });
     })
   } else {
     res.status(406).json({ message: 'id not valid'})
+  }
+}
+
+function validateProject(req, res, next) {
+  const newProject = req.body
+  if (Object.keys(newProject).length > 0){
+    if(newProject.name && newProject.description){
+      next();
+    }
+    else{
+      res.status(400).json({
+        message: 'Missing required fields, please fill out both name and description'
+      })
+    }
+  } else {
+    res.status(400).json({
+      message: 'Missing post data'
+    })
   }
 }
 
