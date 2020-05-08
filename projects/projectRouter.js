@@ -78,6 +78,7 @@ router.put('/:id', validateProjectId, validateProject, (req, res) => {
     });
 });
 
+
 function validateProjectId(req, res, next) {
   const id = Number(req.params.id)
   if(id && typeof id === 'number'){

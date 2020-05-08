@@ -1,11 +1,13 @@
 const express = require('express');
 const server = express();
 const ProjectRouter = require('./projects/projectRouter');
+const ActionsRouter = require('./actions/actionsRouter');
 
 server.use(express.json());
 server.use(logger)
 
-server.use('/projects', ProjectRouter)
+server.use('/projects', ProjectRouter);
+server.use('/actions', ActionsRouter);
 
 server.get('/', (req, res) => {
   res.send(`<h2>Welcome to this sprint challenge!</h2>`);
