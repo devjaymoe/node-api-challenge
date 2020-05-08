@@ -78,6 +78,19 @@ router.put('/:id', validateProjectId, validateProject, (req, res) => {
     });
 });
 
+router.get('/:id/actions', validateProjectId, (req, res) => {
+  const id = req.params.id
+  Projects.getProjectActions(id)
+    .then( response => {
+      res.status(200).json({ message: 'success!', actions: response})
+    })
+    .catch( err => {
+      console.log(err)
+      res.status(500).json({
+          message: 'The project action data could not be retrieved.'
+      });
+    });
+});
 
 function validateProjectId(req, res, next) {
   const id = Number(req.params.id)

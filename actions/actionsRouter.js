@@ -80,20 +80,6 @@ router.delete('/:id', validateActionId, (req, res) => {
     });
 });
 
-router.put('/:id', validateActionId, validateAction, (req, res) => {
-  const id = req.params.id;
-  const changes = req.body;
-  Actions.update(id, changes)
-    .then( update => {
-      res.status(200).json({ message: 'update success!', action: update })
-    })
-    .catch( err => {
-      res.status(500).json({ 
-        message: 'there was an error updating the information in the database.', 
-        error: err
-      });
-    });
-});
 
 function validateActionId(req, res, next) {
   const id = Number(req.params.id)
