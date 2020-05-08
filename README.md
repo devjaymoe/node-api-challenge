@@ -38,25 +38,35 @@ Commit your code regularly and use descriptive messages. This helps both you (in
 
 Demonstrate your understanding of this Sprint's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your Team Lead.
 
-- [ ] Mention two parts of Express that you learned about this week.
+- [x] Mention two parts of Express that you learned about this week.
 
-- [ ] Describe Middleware?
+It’s a javascript framework that works with NodeJS. It is used to build RESTful APIs. It allows the use of middleware functions to be used with the CRUD operations of the webserver.
 
-- [ ] Describe a Resource?
+- [x] Describe Middleware?
 
-- [ ] What can the API return to help clients know if a request was successful?
+It is a function that is added to the server code that can be chained with the execution of requests to the server.
 
-- [ ] How can we partition our application into sub-applications?
+- [x] Describe a Resource?
+
+A resource is data that is held in a database.
+
+- [x] What can the API return to help clients know if a request was successful?
+
+A successful status code, a success message from the API, the data that was successfully retrieved from the database.
+
+- [x] How can we partition our application into sub-applications?
+
+By creating routers on the server that modulate the app into easier to understand and maintain.
 
 ## Minimum Viable Product
 
-- [ ] Configure an _npm script_ named _"server"_ that will execute your code using _nodemon_. Make _nodemon_ be a development time dependency only, it shouldn't be deployed to production.
-- [ ] Configure an _npm script_ named _"start"_ that will execute your code using _node_.
+- [x] Configure an _npm script_ named _"server"_ that will execute your code using _nodemon_. Make _nodemon_ be a development time dependency only, it shouldn't be deployed to production.
+- [x] Configure an _npm script_ named _"start"_ that will execute your code using _node_.
 
 Design and build the necessary endpoints to:
 
-- [ ] Perform CRUD operations on _projects_ and _actions_. When adding an action, make sure the `project_id` provided belongs to an existing `project`. If you try to add an action with an `id` of 3 and there is no project with that `id` the database will return an error.
-- [ ] Retrieve the list of actions for a project.
+- [x] Perform CRUD operations on _projects_ and _actions_. When adding an action, make sure the `project_id` provided belongs to an existing `project`. If you try to add an action with an `id` of 3 and there is no project with that `id` the database will return an error.
+- [x] Retrieve the list of actions for a project.
 
 Please read the following sections before implementing the Minimum Viable Product, they describe how the database is structured and the files and methods available for interacting with the data.
 
@@ -80,7 +90,7 @@ The description of the structure and extra information about each _resource_ sto
 | id          | number    | no need to provide it when creating posts, the database will automatically generate it.          |
 | project_id  | number    | required, must be the id of an existing project.                                                 |
 | description | string    | up to 128 characters long, required.                                                             |
-| notes       | string    | no size limit, required. Used to record additional notes or requirements to complete the action. |
+|        | string    | no size limit, required. Used to record additional notes or requirements to complete the action. |
 | completed   | boolean   | used to indicate if the action has been completed, not required                                  |
 
 ### Database Persistence Helpers
