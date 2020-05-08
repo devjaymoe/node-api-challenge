@@ -8,7 +8,7 @@ router.use(express.json());
 router.get('/', (req, res) => {
   Actions.get()
     .then( response => {
-      res.status(200).json({ message: 'success!', data: response})
+      res.status(200).json({ message: 'success!', all_actions: response})
     })
     .catch( err => {
       console.log(err)
@@ -22,7 +22,7 @@ router.get('/:id', validateActionId, (req, res) => {
   const id = req.params.id
   Actions.get(id)
     .then( response => {
-      res.status(200).json({ message: 'success!', data: response})
+      res.status(200).json({ message: 'success!', action: response})
     })
     .catch( err => {
       console.log(err)
